@@ -16,7 +16,42 @@ import Foundation
  
  Create a new class called `Person`. This class should include properties for a person's first and last name. Name these properties `firstName` and `lastName`. You should also create an initializer that takes a first and last name as parameters and assigns them to the property.
  */
-// write your code here
+/*: title
+ 
+ # Classes
+ 
+ In this lab, you will be exploring Swift classes in more detail. You'll continue to create classes with properties, as well as _methods_ that allow you to interact with the class in some way.
+ 
+ Tests have been included in this playground in the form of `assert()` statements. When you first open the lab, you will see a number of errors. As you complete the tasks in the lab, the errors should disappear. When you've successfully finished the lab, you should see no errors, and the code in the playground should run properly.
+ 
+ _Do not change any of the tests!_ Only add code where `// write your code here` is explicitly marked, or where the directions instruct you to change earlier code that you created.
+ 
+ Let's get started!
+ 
+ ## Question 1
+ 
+ Create a new class called `Person`. This class should include properties for a person's first and last name. Name these properties `firstName` and `lastName`. You should also create an initializer that takes a first and last name as parameters and assigns them to the property.
+ */
+class Person {
+    var firstName: String
+    var lastName: String
+    var fullName: String {
+        return firstName + " " + lastName
+    }
+    
+    init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    
+    func greet(_ person: Person) -> String {
+        let greetingReturn = ("Hello, \(person.firstName)!")
+        print(greetingReturn)
+        return greetingReturn
+    }
+    
+}
+
 
 
 
@@ -81,7 +116,26 @@ extension Double {
     }
 }
 
-// write your code here
+
+
+class Transaction {
+    var type: String
+    var amount: Double
+    var description: String {
+        if type != "in" {
+            return "Transaction: debit in the amount of $\(amount.toMoney)"
+        } else {
+            return "Transaction: credit in the amount of $\(amount.toMoney)"
+        }
+    }
+    
+    
+    
+    init(type: String, amount: Double) {
+        self.type = type
+        self.amount = amount
+    }
+}
 
 
 
@@ -132,11 +186,40 @@ assert(transaction2.description == "Transaction: debit in the amount of $1.20", 
  
  Create an initializer for this class. It should only take one parameter: the owner of the account. When the class is first created (instantiated), the list of transactions should be empty.
  */
-// write your code here
+class BankAccount {
+    let owner: Person
+    var transactions: [Transaction]
+    var balance: Double {
+        var newBalance = 0.0
+        for transaction in transactions {
+            if transaction.type == "in" {
+                newBalance += transaction.amount
+            } else {
+                newBalance -= transaction.amount
+            }
+        }
+    return newBalance
 
-
-
-
+    }
+    
+    init(owner: Person) {
+        self.owner = owner
+        self.transactions = []
+    }
+    
+    func deposit(_ amountDeposited: Double) {
+        let newTransaction = Transaction(type: "in", amount: amountDeposited)
+        transactions.append(newTransaction)
+    }
+    
+    func withdraw(_ amountWithdrawn: Double) {
+        let newTransaction = Transaction(type: "out", amount: amountWithdrawn)
+        transactions.append(newTransaction)
+        
+    }
+    
+    
+}
 
 
 
